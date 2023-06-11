@@ -22,7 +22,7 @@ class AsoAPI:
         logger.debug(f'Get json from {url}/data.json')
         response_json = requests.get(url + '/data.json')
 
-        soup = BeautifulSoup(response_html.content, 'lxml')
+        soup = BeautifulSoup(response_html.content, 'html.parser')
 
         rating_name = soup.select('.headerblock > h4 > b')[0].text.split('apps')[0]
         country = soup.select('.headerblock > h4 > b')[0].text.split('\n')[-1].split(',')[0]
