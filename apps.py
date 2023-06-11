@@ -19,7 +19,7 @@ async def main():
     apps = await AppFactory.get_all_apps(apps_id)
 
     table = [
-        ['App Id', 'Month', 'Region', 'Units k', '%', 'Rev $k', '%', 'Link to full report']
+        ['App Id', 'Month', 'Region', 'Units', '%', 'Rev $', '%', 'Link to full report']
     ]
 
     CsvWriter.write(os.path.join('data', 'apps.csv'), table)

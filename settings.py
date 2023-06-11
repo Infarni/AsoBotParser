@@ -6,7 +6,7 @@ API_HASH = 'd7859700b83543cba8405a0498d3e27f'
 
 ASO_ID = '@bot_ASO_bot'
 
-PHONE = '+380687781744'
+PHONE = '+380970902563'
 
 LOG_LEVEL = logging.DEBUG
 LOG_FORMAT = '%(levelname)s | %(message)s'

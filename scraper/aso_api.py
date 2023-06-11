@@ -83,26 +83,37 @@ class AsoAPI:
 
         json_data = json.loads(response_json.content.decode('utf-8-sig'))
 
-        soup = BeautifulSoup(response_html.content, 'lxml')
+        soup = BeautifulSoup(response_html.content, 'html.parser')
+
+        csv_url = soup.select('.floatmenu > li:nth-child(1) > a:nth-child(1)')[0]['href']
+
+        logger.debug(f'Get csv from {url}/{csv_url}')
+        csv_reader = csv.reader(io.StringIO(requests.get(f'{url}/{csv_url}').text), delimiter=';')
+
+        csv_data = []
+        for row in csv_reader:
+            csv_data.append(row)
+
+        units = [row[2] for row in csv_data][1:]
+        revs = [row[4] for row in csv_data][1:]
 
         data = []
 
         id = app_id
         month = soup.select('.headerblock > h4 > b')[0].text.split(',')[-1].split('\r')[0].strip()
 
-        for item in json_data:
+        for index, item in enumerate(json_data):
             data.append(
                 {
                     'App Id': id,
                     'Month': month,
                     'Region': item['region'],
-                    'Units k': item['installs'],
+                    'Units': units[index],
                     '%': item['installsshare'],
-                    'Rev $k': item['revenue'],
+                    'Rev $': revs[index],
                     ' % ': item['revenueshare'],
                     'Link to full report': url
                 }
             )
-            logger.info(data[-1])
 
         return data
